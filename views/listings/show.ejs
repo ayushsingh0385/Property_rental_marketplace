@@ -1,0 +1,106 @@
+<% layout('/layouts/boilerplate') %>
+<script>
+  const location1="<%=listing.location%>"+","+"<%=listing.country%>";
+  const lat="<%=coordinates[0]%>";
+  const lon="<%=coordinates[1]%>";
+
+</script>
+<body>
+  <div class=" mt-3 mb-3 row col-6 offset-3 listing-link card col" style="width: 50%;">
+    <h1><%= listing.title %></h1>
+    <div >
+      <img src=<%= listing.image.url %> class="card-img-top" style=" height:20rem" alt="...">
+          <div class="card-body">
+            <p class="card-text">
+              <p><h5>Owned by : <%= listing.owner.username %></h6></p>
+              <p>&#x20b9; <%= listing.price.toLocaleString("en-IN") %> / night</p>
+              <p><%= listing.description %></p>
+              <p><%= listing.location %> , <%= listing.country %> </p>
+
+              <% if (currUser && currUser.username==listing.owner.username) { %> 
+                <div class>
+                  <a class=" btn btn-primary addbtn" href="/listings/edit/<%= listing.id %>">Edit</a>
+                  <form class=" btn btn-dark" style="margin-left: 2rem; padding: 0;" action="/listings/<%= listing.id %>?_method=DELETE" method="post"><button class=" btn btn-dark">Delete</button></form>
+                </div>
+              <% } %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row col-6 offset-3 listing-link card col" style="width: 50%;">
+        <div id="map"></div>
+        <script src="/js/map.js"></script>
+        
+      </div>
+      <div class="row col-6 offset-3 listing-link card col" style="width: 50%;">
+        <hr>
+        <% if (currUser) { %>
+        <h3>Leave review</h3>
+        <form action="/listings/<%= listing.id %>/reviews" method="post" novalidate class="needs-validation">
+          <div class="mb-3">
+            <label for="comment" class="form-label">Comment</label>
+            <textarea name="comment" id="comment" style="height:8rem;" class="form-control"></textarea>
+            <div class="invalid-feedback">Enter your review</div>
+        </div>
+        <div class="mb-3">
+          <div >
+            <label for="rating" class=" me-3 form-label">Rating   :</label>
+            
+            <input type="radio" class="btn-check" name="rating" id="option1" value="1" autocomplete="off">
+            <label class="mx-2 btn btn-secondary" for="option1">1</label>
+
+            <input type="radio" class="btn-check" name="rating" id="option2" value="2" autocomplete="off">
+            <label class="mx-2 btn btn-secondary" for="option2">2</label>
+
+            <input type="radio" class="btn-check" name="rating" id="option3" value="3" autocomplete="off">
+            <label class="mx-2 btn btn-secondary" for="option3">3</label>
+
+            <input type="radio" class="btn-check" name="rating" id="option4" value="4" autocomplete="off">
+            <label class="mx-2 btn btn-secondary" for="option4">4</label>
+
+            <input type="radio" class="btn-check" name="rating" id="option5"  value="5" autocomplete="off">
+            <label class="mx-2 btn btn-secondary" for="option5">5</label>
+            <div class="invalid-feedback">Rating required</div>
+          </div>
+        </div>
+        <!-- <div class="mb-3">
+          <label for="created" class="form-label">Date required</label>
+          <input type="datetime-local" name="created" required placeholder="Enter date" id="created" class="form-control">
+          <div class="invalid-feedback">Creation Date required</div>
+        </div> -->
+        <br>
+        <button class="btn btn-primary addbtn">Submit</button>
+        </form>
+        <% } else {%>
+         <h3>Login to leave reviews</h3>
+        <% } %>
+      </div>
+
+      <br><br>
+      <% if (listing.reviews.length>0) { %>
+       
+      <div class=" mt-3 row col-6 offset-3 listing-link card col">
+        <h3>Reviews</h3>
+        <% for(let i=0;i<listing.reviews.length;i++){ %>
+          <hr>
+          <div class="mb-2" >
+            <p><b><i>&#64;<%=listing.reviews[i].owner.username%></i></b></p>
+            <p><%= listing.reviews[i].comment %></p>
+            <p>
+              <%rate=listing.reviews[i].rating%>
+              Rating :
+              <% for( let i = 0; i <rate; i++ ) { %>
+                &starf;
+              <% } %>
+            </p>
+            <% if (currUser && currUser.username==listing.reviews[i].owner.username) { %> 
+              <form action="/listings/<%= listing.id %>/reviews/<%= listing.reviews[i].id %>?_method=DELETE" method="post">
+                <p><button class=" col-2 btn btn-dark">Delete</button></p>
+              </form>
+            <% } %>
+          </div>
+        <% } %>
+      </div>  
+      <% } %>
+      
+</body>
