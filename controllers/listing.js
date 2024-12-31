@@ -22,7 +22,7 @@ module.exports.getIdListing=async(req,res)=>{
     console.log("temp",temp);
     const geocode=await temp.json();
     console.log("geocode",geocode,geocode.lat,geocode.lon);
-    const coordinates=[Number(geocode[0].lat),Number(geocode[0].lon)];
+    const coordinates=geocode.lat?[Number(geocode[0].lat),Number(geocode[0].lon)]:[200,200];
     console.log("coordinates",coordinates);
     res.render("listings/show.ejs",{listing,coordinates});
 }

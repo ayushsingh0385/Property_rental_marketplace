@@ -3,7 +3,6 @@
   const location1="<%=listing.location%>"+","+"<%=listing.country%>";
   const lat="<%=coordinates[0]%>";
   const lon="<%=coordinates[1]%>";
-
 </script>
 <body>
   <div class=" mt-3 mb-3 row col-6 offset-3 listing-link card col" style="width: 50%;">
@@ -28,9 +27,14 @@
         </div>
       </div>
       <div class="row col-6 offset-3 listing-link card col" style="width: 50%;">
-        <div id="map"></div>
-        <script src="/js/map.js"></script>
-        
+        <% if (coordinates[0]!=200) { %> 
+          <div id="map"></div>  
+          <script src="/js/map.js"></script>
+        <% } else { %>
+          <div class="alert alert-info" role="alert">
+            Unable to find coordinates
+          </div>
+        <% } %>
       </div>
       <div class="row col-6 offset-3 listing-link card col" style="width: 50%;">
         <hr>
