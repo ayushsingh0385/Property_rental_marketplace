@@ -21,8 +21,11 @@ module.exports.getIdListing=async(req,res)=>{
     const temp=await fetch(url);
     console.log("temp",temp);
     const geocode=await temp.json();
-    console.log("geocode",geocode,geocode.lat,geocode.lon);
-    const coordinates=geocode.lat?[Number(geocode[0].lat),Number(geocode[0].lon)]:[200,200];
+    // console.log("geocode",geocode,geocode.lat,geocode.lon);
+    console.log("truth :",typeof geocode);
+    console.log(geocode[0]==undefined);
+    console.log(geocode);
+    const coordinates=(geocode[0]!=undefined)?[Number(geocode[0].lat),Number(geocode[0].lon)]:[200,200];
     console.log("coordinates",coordinates);
     res.render("listings/show.ejs",{listing,coordinates});
 }

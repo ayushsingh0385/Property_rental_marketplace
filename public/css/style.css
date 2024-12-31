@@ -57,6 +57,24 @@ html{
     object-fit: cover !important;
 }
 
+@media (max-width:450px){
+    .card-img-top{
+        height: 12rem !important;
+    }
+}
+
+@media (max-width:650px){
+    .cardy{
+        width: 100% !important;
+    }
+}
+
+@media (max-width:768px) and (min-width:650px){
+    .cardy{
+        width: 90% !important;
+    }
+}
+
 .card-body{
     padding: 0 !important;
 }
